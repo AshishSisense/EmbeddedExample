@@ -1,0 +1,52 @@
+<html>
+  <head>
+    <title>Sisensejs</title>
+  </head>
+  <body>
+      <!-- Sisense.js bootstraps a div element with the ID "sisenseApp"
+        to ensure the sisenseApp element and other container elements are loaded
+        before using the sisense.connect function. -->
+      <div id="sisenseApp">
+          <div class="row">
+            <div id="widget1"></div>
+            <div>Lorem ipsum dolor sit amet ...</div>
+          </div>
+          <div class="row">
+            <div>Lorem ipsum dolor sit amet ...</div>
+            <div id="widget2"></div>
+          </div>
+          <div class="row">
+            <div id="widget3"></div>
+            <div>Lorem ipsum dolor sit amet ...</div>
+          </div>
+      </div>
+
+      <!-- replace with your Sisense server address -->
+    <script type="text/javascript" src="https://iprotech.sisensepoc.com/js/sisense.js"></script>
+    <script type = "text/javascript">
+      // replace with your Sisense server address
+      Sisense.connect('https://iprotech.sisensepoc.com/')
+        .then(function(app) {
+          //replace with your dashboard id
+          app.dashboards.load('5fa9b6ac62aa35002d4de013')
+            .then(function(dash){
+
+               // replace with your widgets' id
+               // and make this for each of your widgets
+               const widgets = [
+                 {id: '5fb6d10d62aa35002d4de08c', containerId: 'widget1'},
+                 {id: '5fb6d1bd62aa35002d4de08f', containerId: 'widget2'},
+                 {id: '5fb6d1ca62aa35002d4de091', containerId: 'widget3'},
+               ];
+               widgets.forEach((w) => {
+                 dash.widgets.get(w.id).container = document.getElementById(w.containerId);
+               });
+
+               // refresh your dashboard
+               dash.refresh();
+            });
+      });
+    </script>
+
+  </body>
+</html>
